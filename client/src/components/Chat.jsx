@@ -70,12 +70,13 @@ const Chat = ({ socket, name, room }) => {
         ))}
       </div>
       <div className="app__chat-footer">
-        <textarea
+        <input
           className="app__chat-message"
           type="text"
           placeholder="Message..."
           ref={messageRef}
-        ></textarea>
+          onKeyDown={(event) => event.key === "Enter" && sendMessage()}
+        />
         <button className="app__chat-send-btn" onClick={sendMessage}>
           <img
             src={telegramIcon}

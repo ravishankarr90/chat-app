@@ -16,7 +16,6 @@
 
 .app__chat-footer {
   width: 25vw;
-  height: 10vh;
   display: flex;
   flex-direction: row;
 }
@@ -75,5 +74,9 @@
 
   .app__chat-footer {
     height: 5vh;
+  }
+
+  .app__chat-container {
+    width: 99%;
   }
 }
