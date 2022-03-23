@@ -7,6 +7,7 @@ const ChatItem = ({ message, author, self, time }) => {
 
   return (
     <div className={self ? "my__msg" : "other__msg"}>
+      <p className="chat__author">{author}</p>
       <p className="chat__message">{message}</p>
       <p className="chat__time">{formattedTime}</p>
     </div>

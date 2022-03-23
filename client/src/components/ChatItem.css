@@ -27,3 +27,10 @@
   font-size: 0.7em;
   justify-self: flex-end;
 }
+
+.chat__author {
+  margin-bottom: 10px;
+  font-size: 0.7em;
+  justify-self: flex-end;
+  font-weight: bold;
+}

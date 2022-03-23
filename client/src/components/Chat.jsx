@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { SiGooglechat } from "react-icons/si";
+import ScrollToBottom from "react-scroll-to-bottom";
+
 import telegramIcon from "../assets/telegram-plane.svg";
 
 import ChatItem from "./ChatItem";
@@ -59,15 +61,17 @@ const Chat = ({ socket, name, room }) => {
         </div>
       </div>
       <div className="app__chat-body">
-        {chatList.map((chat) => (
-          <ChatItem
-            message={chat.message}
-            author={chat.author}
-            self={chat.self}
-            key={chat.time}
-            time={chat.time}
-          />
-        ))}
+        <ScrollToBottom className="app__chat-body">
+          {chatList.map((chat) => (
+            <ChatItem
+              message={chat.message}
+              author={chat.author}
+              self={chat.self}
+              key={chat.time}
+              time={chat.time}
+            />
+          ))}
+        </ScrollToBottom>
       </div>
       <div className="app__chat-footer">
         <input
