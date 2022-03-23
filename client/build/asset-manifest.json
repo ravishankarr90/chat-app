@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ffae114d.css",
+    "main.js": "/static/js/main.15257708.js",
+    "index.html": "/index.html",
+    "static/media/telegram-plane.svg": "/static/media/telegram-plane.858d72ed76ca0b6e89cbf2a02d62d645.svg",
+    "main.ffae114d.css.map": "/static/css/main.ffae114d.css.map",
+    "main.15257708.js.map": "/static/js/main.15257708.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ffae114d.css",
+    "static/js/main.15257708.js"
+  ]
+}
