@@ -1,0 +1,29 @@
+.my__msg,
+.other__msg {
+  margin: 1rem 1rem;
+  padding: 1rem 1rem;
+  width: 70%;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  color: #fff;
+  height: fit-content;
+}
+
+.my__msg {
+  border: 0.5px solid var(--font-color-primary);
+  background: var(--font-color-primary);
+  margin-right: auto;
+}
+
+.other__msg {
+  border: 0.5px solid var(--secondary-color);
+  background: var(--secondary-color);
+  margin-left: auto;
+}
+
+.chat__time {
+  margin-top: 10px;
+  font-size: 0.7em;
+  justify-self: flex-end;
+}
