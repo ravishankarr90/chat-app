@@ -13,8 +13,9 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "server/index.js"
+      "src": "^(.*)$",
+      "headers": { "cache-control": "s-maxage=0" },
+      "dest": "/client/build/index.html"
     }
   ]
 }
