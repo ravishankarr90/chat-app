@@ -9,6 +9,8 @@ app.use(cors());
 
 const server = http.createServer(app);
 
+console.log("Environment : ", process.env.NODE_ENV);
+
 let io = null;
 if (process.env.NODE_ENV !== "production") {
   io = new Server(server, {
@@ -18,7 +20,12 @@ if (process.env.NODE_ENV !== "production") {
     },
   });
 } else {
-  io = new Server(server);
+  io = new Server(server, {
+    cors: {
+      origin: process.env.FRONTEND_URL,
+      methods: ["GET", "POST"],
+    },
+  });
 }
 
 io.on("connection", (socket) => {

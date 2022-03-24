@@ -6,6 +6,7 @@ import { SiGooglechat } from "react-icons/si";
 import Chat from "./components/Chat";
 
 let backendUrl = "http://localhost:3001";
+console.log("Environment : ", process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {
   backendUrl = process.env.BACKEND_URL;
 }
