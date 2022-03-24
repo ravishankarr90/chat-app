@@ -11,6 +11,7 @@ if (process.env.NODE_ENV === "production") {
   backendUrl = process.env.BACKEND_URL;
 }
 
+console.log("Backend URL : ", backendUrl);
 const socket = io.connect(backendUrl);
 
 function App() {
