@@ -15,7 +15,7 @@
     {
       "src": "^(.*)$",
       "headers": { "cache-control": "s-maxage=0" },
-      "dest": "/client/build/index.html"
+      "dest": "client/build/index.html"
     }
   ]
 }
