@@ -5,7 +5,12 @@ import { SiGooglechat } from "react-icons/si";
 
 import Chat from "./components/Chat";
 
-const socket = io.connect("http://localhost:3001");
+let backendUrl = "http://localhost:3001";
+if (process.env.NODE_ENV === "production") {
+  backendUrl = process.env.BACKEND_URL;
+}
+
+const socket = io.connect(backendUrl);
 
 function App() {
   const [name, setName] = useState("");

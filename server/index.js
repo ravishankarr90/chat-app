@@ -39,13 +39,9 @@ io.on("connection", (socket) => {
   });
 });
 
-if (process.env.NODE_ENV === "production") {
-  const path = require("path");
-  app.get("/*", (req, res) => {
-    app.use(express.static(path.resolve(__dirname, "../client", "build")));
-    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
-  });
-}
+app.get("/", (req, res) => {
+  res.send(`Hello !!! Server running on ${port}`);
+});
 
 server.listen(port, () => {
   console.log(`SERVER RUNNING ON PORT ${port}`);
