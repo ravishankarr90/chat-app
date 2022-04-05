@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import { SiGooglechat } from "react-icons/si";
 import ScrollToBottom from "react-scroll-to-bottom";
 
@@ -7,10 +7,14 @@ import telegramIcon from "../assets/telegram-plane.svg";
 import ChatItem from "./ChatItem";
 
 import "./Chat.css";
+import AppContext from "../contexts/AppContext";
 
-const Chat = ({ socket, name, room }) => {
+const Chat = () => {
   const messageRef = useRef();
+  const socketCtx = useContext(AppContext);
   const [chatList, setChatList] = useState([]);
+
+  const { name, room, socket } = socketCtx;
 
   const sendMessage = async () => {
     if (messageRef.current.value !== "") {
@@ -22,10 +26,6 @@ const Chat = ({ socket, name, room }) => {
       };
 
       await socket.emit("send_message", messageData);
-      messageData.self = true;
-      setChatList((prevChatList) => {
-        return [...prevChatList, messageData];
-      });
       messageRef.current.value = "";
     }
   };
@@ -37,7 +37,9 @@ const Chat = ({ socket, name, room }) => {
         return [...prevChatList, messageData];
       });
     });
-  }, [socket]);
+
+    return () => socket.off("receive_message");
+  });
 
   return (
     <div className="app__chat-container">
@@ -62,15 +64,25 @@ const Chat = ({ socket, name, room }) => {
       </div>
       <div className="app__chat-body">
         <ScrollToBottom className="app__chat-body">
-          {chatList.map((chat) => (
-            <ChatItem
-              message={chat.message}
-              author={chat.author}
-              self={chat.self}
-              key={chat.time}
-              time={chat.time}
-            />
-          ))}
+          {chatList.map((chat) => {
+            return chat.author === name ? (
+              <ChatItem
+                message={chat.message}
+                author={chat.author}
+                self={true}
+                key={chat.time}
+                time={chat.time}
+              />
+            ) : (
+              <ChatItem
+                message={chat.message}
+                author={chat.author}
+                self={false}
+                key={chat.time}
+                time={chat.time}
+              />
+            );
+          })}
         </ScrollToBottom>
       </div>
       <div className="app__chat-footer">

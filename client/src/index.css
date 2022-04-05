@@ -9,6 +9,7 @@
 :root {
   --font-color-primary: darkblue;
   --secondary-color: deepskyblue;
+  --bg-color-success: green;
   --font-family: "Roboto Condensed", sans-serif;
 }
 

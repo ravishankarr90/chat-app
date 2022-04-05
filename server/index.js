@@ -29,16 +29,32 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 io.on("connection", (socket) => {
-  console.log(`User connected  : ${socket.id}`);
+  console.log(`User connected ID : ${socket.id}`);
 
   socket.on("join_room", (data) => {
-    console.log("Joining room : ", data, " user : ", socket.id);
+    console.log("Joining room : ", data, " User Id : ", socket.id);
     socket.join(data);
   });
 
   socket.on("send_message", (messageData) => {
     console.log("Message Data received : ", JSON.stringify(messageData));
-    socket.to(messageData.room).emit("receive_message", messageData);
+    //socket.to(messageData.room).emit("receive_message", messageData);
+    io.in(messageData.room).emit("receive_message", messageData); //send message to all users in a room
+  });
+
+  socket.on("game_data", (gameData) => {
+    console.log(
+      "Game data received : index",
+      gameData.index,
+      " value : ",
+      gameData.value,
+      " for Room  : ",
+      gameData.room,
+      " for Name : ",
+      gameData.name
+    );
+    //socket.to(room).emit("game_data_for_room", cellData);
+    io.in(gameData.room).emit("game_data_for_room", gameData);
   });
 
   socket.on("disconnect", () => {

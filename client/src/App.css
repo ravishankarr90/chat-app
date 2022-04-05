@@ -58,6 +58,13 @@ footer {
   margin-top: auto;
 }
 
+.app__main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+  width: 100%;
+}
+
 @media screen and (max-width: 768px) {
   .app__chat-details {
     padding: 2em 2em;

@@ -1,0 +1,19 @@
+.tictactoe__cell {
+  border: 1px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 5em;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.tictactoe__cell.normal {
+  background-color: var(--font-color-primary);
+}
+
+.tictactoe__cell.winner {
+  background-color: var(--bg-color-success);
+}

@@ -13,13 +13,13 @@
 .my__msg {
   border: 0.5px solid var(--font-color-primary);
   background: var(--font-color-primary);
-  margin-right: auto;
+  margin-left: auto;
 }
 
 .other__msg {
   border: 0.5px solid var(--secondary-color);
   background: var(--secondary-color);
-  margin-left: auto;
+  margin-right: auto;
 }
 
 .chat__time {
