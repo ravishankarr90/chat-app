@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import TicTacToeCell from "./TicTacToeCell";
-import AppContext from "../contexts/AppContext";
+import AppContext from "../../contexts/AppContext";
 
 import "./TicTacToe.css";
 
@@ -60,7 +60,6 @@ const TicTacToe = () => {
 
   useEffect(() => {
     socket.on("game_data_for_room", (gameDataReceived) => {
-      console.log("Game data received : ", JSON.stringify(gameDataReceived));
       setGameData((prevGameData) => {
         const tempArr = [...prevGameData];
         tempArr[gameDataReceived.index] = gameDataReceived.value;

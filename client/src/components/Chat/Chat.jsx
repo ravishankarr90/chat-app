@@ -2,12 +2,12 @@ import React, { useRef, useEffect, useState, useContext } from "react";
 import { SiGooglechat } from "react-icons/si";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-import telegramIcon from "../assets/telegram-plane.svg";
+import telegramIcon from "../../assets/telegram-plane.svg";
 
 import ChatItem from "./ChatItem";
 
 import "./Chat.css";
-import AppContext from "../contexts/AppContext";
+import AppContext from "../../contexts/AppContext";
 
 const Chat = () => {
   const messageRef = useRef();
@@ -32,7 +32,6 @@ const Chat = () => {
 
   useEffect(() => {
     socket.on("receive_message", (messageData) => {
-      console.log("Message data received : ", JSON.stringify(messageData));
       setChatList((prevChatList) => {
         return [...prevChatList, messageData];
       });

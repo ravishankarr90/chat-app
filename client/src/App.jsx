@@ -2,8 +2,7 @@ import "./App.css";
 import { useContext, useState } from "react";
 import { SiGooglechat } from "react-icons/si";
 
-import Chat from "./components/Chat";
-import Game from "./components/TicTacToe";
+import { Chat, TicTacToe } from "./components";
 
 import AppContext from "./contexts/AppContext";
 
@@ -16,7 +15,6 @@ function App() {
   const joinRoom = (event) => {
     event.preventDefault();
     if (name !== "" && room !== "") {
-      console.log("Room Id to join : ", room);
       ctx.socket.emit("join_room", room);
       setShowChat(true);
     }
@@ -47,12 +45,22 @@ function App() {
           </form>
         ) : (
           <div className="app__main-container">
-            <Game />
+            <TicTacToe />
             <Chat />
           </div>
         )}
         <footer>
-          <small> &copy; 2022 Ravishankar R. All rights reserved. </small>
+          <small>
+            {" "}
+            &copy; 2022{" "}
+            <a
+              className="footer__link"
+              href="https://github.com/ravishankarr90/chat-app"
+            >
+              Ravishankar R
+            </a>{" "}
+            All rights reserved.{" "}
+          </small>
         </footer>
       </div>
     </AppContext.Provider>

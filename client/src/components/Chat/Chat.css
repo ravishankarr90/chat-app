@@ -67,16 +67,27 @@
     width: 100%;
   }
 
+  .app__chat-body {
+    height: 400px;
+  }
+
   .msg_send_icon {
     height: 1em;
     width: 1em;
   }
 
   .app__chat-footer {
-    height: 5vh;
+    height: 60px;
   }
 
   .app__chat-container {
-    width: 99%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 2fr 0.25fr;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    padding-top: 15px;
+    margin: auto;
   }
 }

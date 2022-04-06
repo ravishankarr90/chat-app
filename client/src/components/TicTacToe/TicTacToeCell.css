@@ -17,3 +17,11 @@
 .tictactoe__cell.winner {
   background-color: var(--bg-color-success);
 }
+
+@media screen and (max-width: 768px) {
+  .tictactoe__cell {
+    font-size: 3em;
+    height: 5rem;
+    width: 5rem;
+  }
+}

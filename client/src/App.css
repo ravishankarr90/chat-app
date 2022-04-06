@@ -65,6 +65,12 @@ footer {
   width: 100%;
 }
 
+.footer__link {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .app__chat-details {
     padding: 2em 2em;
@@ -80,5 +86,15 @@ footer {
 
   .app__chat-details_button {
     width: 25vw;
+  }
+
+  .app__main-container {
+    grid-template-columns: 1fr;
+    width: 99%;
+  }
+
+  .app__chat-container {
+    height: 520px;
+    padding-bottom: 40px;
   }
 }

@@ -1,0 +1,17 @@
+.tictactoe__board {
+  width: 70%;
+  height: 70%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+@media screen and (max-width: 768px) {
+  .tictactoe__board {
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
+    justify-content: center;
+    align-items: center;
+  }
+}
