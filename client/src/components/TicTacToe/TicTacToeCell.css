@@ -18,7 +18,7 @@
   background-color: var(--bg-color-success);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 820px) {
   .tictactoe__cell {
     font-size: 3em;
     height: 5rem;
