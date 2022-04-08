@@ -122,7 +122,7 @@ io.on("connection", (socket) => {
       delete globalGameData[room];
       usersInRoom.splice(usersInRoom.indexOf(name), 1);
 
-      io.in(room).emit("game_ended", "Game ended as other user left the room");
+      io.in(room).emit("game_ended", "Other user left the room");
     }
   });
 });

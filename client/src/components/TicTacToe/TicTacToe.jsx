@@ -92,13 +92,17 @@ const TicTacToe = () => {
 
   useEffect(() => {
     const winnerObj = checkWinner(gameData);
+    let timeOut = null;
     if (winnerObj && winnerObj.winner) {
       setPlayable(false);
       if (winnerObj.indices) {
         setWinLocations([...winnerObj.indices]);
       }
       socket.emit("game_winner", { winner: winnerObj.winner, room });
+      timeOut = setTimeout(resetGame, 3000);
     }
+
+    return () => clearTimeout(timeOut);
   }, [gameData]);
 
   useEffect(() => {
