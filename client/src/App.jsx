@@ -1,10 +1,13 @@
-import "./App.css";
 import { useContext, useState, useEffect } from "react";
 import { SiGooglechat } from "react-icons/si";
+import { ToastContainer, toast } from "react-toastify";
 
 import { Chat, TicTacToe } from "./components";
 
 import AppContext from "./contexts/AppContext";
+
+import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [name, setName] = useState("");
@@ -25,7 +28,7 @@ function App() {
   useEffect(() => {
     socket.on("room_full", (roomFull) => {
       if (roomFull) {
-        alert("Room is full");
+        toast.warn("Room is full. Please enter another room");
       }
     });
 
@@ -75,6 +78,7 @@ function App() {
           </small>
         </footer>
       </div>
+      <ToastContainer position="top-center" autoClose={1000} />
     </AppContext.Provider>
   );
 }
