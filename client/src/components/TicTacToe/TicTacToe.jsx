@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
+import { toast } from "react-toastify";
 import TicTacToeCell from "./TicTacToeCell";
 import AppContext from "../../contexts/AppContext";
 
 import "./TicTacToe.css";
 
 const checkWinner = (gameData) => {
-  let winnerObj = {};
+  let winnerObj = null;
   const winLocations = [
     [0, 1, 2],
     [3, 4, 5],
@@ -31,6 +32,11 @@ const checkWinner = (gameData) => {
     }
   }
 
+  const emptyCells = gameData.filter((data) => data === "");
+  if (emptyCells.length === 0 && null === winnerObj) {
+    winnerObj = { winner: "XY" };
+  }
+
   return winnerObj;
 };
 
@@ -43,6 +49,13 @@ const TicTacToe = () => {
   const [nextIsX, setNextIsX] = useState(true);
   const [playable, setPlayable] = useState(true);
   const [winLocations, setWinLocations] = useState([]);
+
+  const resetGame = () => {
+    setGameData(Array(9).fill(""));
+    setNextIsX("X");
+    setPlayable(true);
+    setWinLocations([]);
+  };
 
   const handleCellClick = async (cellIndex) => {
     if (playable) {
@@ -79,11 +92,44 @@ const TicTacToe = () => {
 
   useEffect(() => {
     const winnerObj = checkWinner(gameData);
-    if (winnerObj.winner) {
-      setWinLocations([...winnerObj.indices]);
+    if (winnerObj && winnerObj.winner) {
       setPlayable(false);
+      if (winnerObj.indices) {
+        setWinLocations([...winnerObj.indices]);
+      }
+      socket.emit("game_winner", { winner: winnerObj.winner, room });
     }
   }, [gameData]);
+
+  useEffect(() => {
+    socket.on("receive_winner", (winnerName) => {
+      if ("Draw" !== winnerName) {
+        toast.success(`${winnerName} has won the game !`, {
+          toastId: "game_won",
+          autoClose: 4000,
+        });
+      } else {
+        toast.success(`The game is draw !`, {
+          toastId: "game_won",
+          autoClose: 4000,
+        });
+      }
+    });
+
+    return () => socket.off("receive_winner");
+  });
+
+  useEffect(() => {
+    socket.on("game_ended", (msg) => {
+      toast.info(msg, {
+        toastId: "game_ended",
+        autoClose: 4000,
+      });
+      resetGame();
+    });
+
+    return () => socket.off("game_ended");
+  });
 
   return (
     <div className="app__game">

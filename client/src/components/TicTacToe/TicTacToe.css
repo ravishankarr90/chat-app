@@ -16,7 +16,6 @@
 
 .game__heading {
   margin-top: auto;
-  font-weight: 700;
   font-size: 2.5em;
   color: var(--font-color-primary);
 }

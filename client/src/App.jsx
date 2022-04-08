@@ -19,17 +19,17 @@ function App() {
   const joinRoom = (event) => {
     event.preventDefault();
     if (name !== "" && room !== "") {
-      socket.emit("join_room", room, (confirmation) => {
+      socket.emit("join_room", { room, name }, (confirmation) => {
         setShowChat(true);
       });
     }
   };
 
   useEffect(() => {
-    socket.on("room_full", (roomFull) => {
-      if (roomFull) {
-        toast.warn("Room is full. Please enter another room");
-      }
+    socket.on("join_error", (msg) => {
+      toast.warn(msg, {
+        toastId: "join_error",
+      });
     });
 
     return () => socket.off("room_full");

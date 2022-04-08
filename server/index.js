@@ -4,6 +4,9 @@ const app = express();
 const cors = require("cors");
 const { Server } = require("socket.io");
 const port = process.env.PORT || 3001;
+const globalGameData = {};
+const globalUsersForRooms = {};
+const globalSocketData = {};
 
 app.use(cors());
 
@@ -31,15 +34,44 @@ if (process.env.NODE_ENV !== "production") {
 io.on("connection", (socket) => {
   console.log(`User connected ID : ${socket.id}`);
 
-  socket.on("join_room", (data, callback) => {
-    console.log("Joining room : ", data, " User Id : ", socket.id);
-    const clients = io.sockets.adapter.rooms.get(data);
-    const numClientsConnected = clients ? clients.size : 0;
-    if (numClientsConnected < 2) {
-      socket.join(data);
-      callback("success");
+  socket.on("join_room", ({ room, name }, callback) => {
+    let safeToJoin = true;
+    console.log(
+      "Joining room : ",
+      room,
+      " User Id : ",
+      socket.id,
+      " Name : ",
+      name
+    );
+
+    if (!globalUsersForRooms[room]) {
+      globalUsersForRooms[room] = [];
+    }
+
+    if (
+      globalUsersForRooms[room] &&
+      globalUsersForRooms[room].indexOf(name) > -1
+    ) {
+      safeToJoin = false;
+    }
+
+    if (safeToJoin) {
+      const clients = io.sockets.adapter.rooms.get(room);
+      const numClientsConnected = clients ? clients.size : 0;
+      if (numClientsConnected < 2) {
+        globalUsersForRooms[room].push(name);
+        globalSocketData[socket.id] = {
+          name,
+          room,
+        };
+        socket.join(room);
+        callback("success");
+      } else {
+        io.to(socket.id).emit("join_error", "Room is full.");
+      }
     } else {
-      io.to(socket.id).emit("room_full", true);
+      io.to(socket.id).emit("join_error", "Name already taken in the room.");
     }
   });
 
@@ -60,12 +92,38 @@ io.on("connection", (socket) => {
       " for Name : ",
       gameData.name
     );
+
+    if (!globalGameData[gameData.room]) {
+      globalGameData[gameData.room] = {};
+      globalGameData[gameData.room][gameData.value] = gameData.name;
+    } else if (!globalGameData[gameData.room][gameData.name]) {
+      globalGameData[gameData.room][gameData.value] = gameData.name;
+    }
+
     //socket.to(room).emit("game_data_for_room", cellData);
     io.in(gameData.room).emit("game_data_for_room", gameData);
   });
 
+  socket.on("game_winner", ({ winner, room }) => {
+    const roomData = globalGameData[room];
+    let winnerName = "Draw";
+    if (winner !== "XY") {
+      winnerName = roomData[winner];
+    }
+    io.in(room).emit("receive_winner", winnerName);
+  });
+
   socket.on("disconnect", () => {
     console.log(`User disconnected : ${socket.id}`);
+    if (globalSocketData[socket.id]) {
+      const { room, name } = globalSocketData[socket.id];
+      const usersInRoom = globalUsersForRooms[room];
+      const gameDataForRoom = globalGameData[room];
+      delete globalGameData[room];
+      usersInRoom.splice(usersInRoom.indexOf(name), 1);
+
+      io.in(room).emit("game_ended", "Game ended as other user left the room");
+    }
   });
 });
 
