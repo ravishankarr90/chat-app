@@ -86,17 +86,20 @@ const TicTacToe = () => {
   }, [gameData]);
 
   return (
-    <div className="tictactoe__board">
-      {gameData.map((cellValue, index) => (
-        <TicTacToeCell
-          key={index}
-          index={index}
-          cellClickHandler={handleCellClick}
-          winCell={winLocations.indexOf(index) > -1}
-        >
-          {cellValue}
-        </TicTacToeCell>
-      ))}
+    <div className="app__game">
+      <p className="game__heading">Fancy a game?</p>
+      <div className="tictactoe__board">
+        {gameData.map((cellValue, index) => (
+          <TicTacToeCell
+            key={index}
+            index={index}
+            cellClickHandler={handleCellClick}
+            winCell={winLocations.indexOf(index) > -1}
+          >
+            {cellValue}
+          </TicTacToeCell>
+        ))}
+      </div>
     </div>
   );
 };

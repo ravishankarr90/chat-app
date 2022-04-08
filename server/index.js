@@ -31,9 +31,16 @@ if (process.env.NODE_ENV !== "production") {
 io.on("connection", (socket) => {
   console.log(`User connected ID : ${socket.id}`);
 
-  socket.on("join_room", (data) => {
+  socket.on("join_room", (data, callback) => {
     console.log("Joining room : ", data, " User Id : ", socket.id);
-    socket.join(data);
+    const clients = io.sockets.adapter.rooms.get(data);
+    const numClientsConnected = clients ? clients.size : 0;
+    if (numClientsConnected < 2) {
+      socket.join(data);
+      callback("success");
+    } else {
+      io.to(socket.id).emit("room_full", true);
+    }
   });
 
   socket.on("send_message", (messageData) => {

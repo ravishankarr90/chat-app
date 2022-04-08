@@ -1,5 +1,5 @@
 import "./App.css";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { SiGooglechat } from "react-icons/si";
 
 import { Chat, TicTacToe } from "./components";
@@ -11,14 +11,26 @@ function App() {
   const [room, setRoom] = useState("");
   const [showchat, setShowChat] = useState(false);
   const ctx = useContext(AppContext);
+  const { socket } = ctx;
 
   const joinRoom = (event) => {
     event.preventDefault();
     if (name !== "" && room !== "") {
-      ctx.socket.emit("join_room", room);
-      setShowChat(true);
+      socket.emit("join_room", room, (confirmation) => {
+        setShowChat(true);
+      });
     }
   };
+
+  useEffect(() => {
+    socket.on("room_full", (roomFull) => {
+      if (roomFull) {
+        alert("Room is full");
+      }
+    });
+
+    return () => socket.off("room_full");
+  });
 
   return (
     <AppContext.Provider value={{ ...ctx, name, room }}>
