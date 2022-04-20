@@ -19,6 +19,7 @@ function App() {
   const joinRoom = (event) => {
     event.preventDefault();
     if (name !== "" && room !== "") {
+      console.log("Join room : ", room, " name : ", name);
       socket.emit("join_room", { room, name }, (confirmation) => {
         setShowChat(true);
       });
